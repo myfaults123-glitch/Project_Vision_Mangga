@@ -22,4 +22,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Jalankan dengan Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "120", "app:app"]
+# Menggunakan sh -c agar shell bisa membaca variabel environment $PORT
+CMD sh -c "gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:app"
