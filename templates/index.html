@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango Vision — AI Ripeness Detection Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#0B1121',
+                        surface: '#111827',
+                        panel: '#1E293B',
+                        mangga: {
+                            matang: '#FACC15', // Yellow
+                            mengkal: '#F97316', // Orange
+                            mentah: '#22C55E'  // Green
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0B1121; 
+            color: #F8FAFC; 
+            /* Grid Background Pattern */
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .card-glow { box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); }
+        .btn-gradient { background: linear-gradient(90deg, #FACC15 0%, #F97316 100%); }
+        .btn-gradient:hover { background: linear-gradient(90deg, #FDE047 0%, #EA580C 100%); }
+        .progress-bar { transition: width 1s ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-mangga-mengkal selection:text-white">
+
+    <nav class="sticky top-0 z-50 bg-base/80 backdrop-blur-md border-b border-slate-800 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="bg-gradient-to-br from-mangga-matang to-mangga-mengkal p-2 rounded-lg text-base">
+                <i class="fa-solid fa-microchip text-black"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-tight leading-tight">Mango <span class="text-mangga-mengkal">Vision</span></h1>
+                <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">YOLOv11 · Sorting HMI</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-5 text-sm">
+            <div class="flex items-center space-x-2 bg-slate-800/50 px-4 py-1.5 rounded-full border border-slate-700/50">
+                <div class="w-2 h-2 rounded-full bg-mangga-mentah animate-pulse shadow-[0_0_8px_#22C55E]"></div>
+                <span class="text-slate-300 text-xs font-medium">System Online</span>
+            </div>
+            <i class="fa-regular fa-bell text-slate-400 hover:text-white cursor-pointer transition"></i>
+            <i class="fa-solid fa-gear text-slate-400 hover:text-white cursor-pointer transition"></i>
+            <div class="w-8 h-8 rounded-full bg-mangga-mengkal text-black flex items-center justify-center font-bold text-xs">GG</div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-5xl">
+        
+        <div class="mb-12">
+            <div class="inline-block border border-mangga-mengkal/30 bg-mangga-mengkal/10 px-3 py-1 rounded-full text-mangga-matang text-[10px] font-mono tracking-widest uppercase mb-6">
+                <i class="fa-solid fa-circle text-[6px] mr-2 text-mangga-matang animate-pulse"></i> YOLOv11 · Computer Vision
+            </div>
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight leading-tight">
+                AI-Powered Mango <span class="text-mangga-matang">Ripeness</span> <br> <span class="text-mangga-mengkal">Detection</span>
+            </h2>
+            <p class="text-slate-400 max-w-2xl text-sm sm:text-base leading-relaxed mb-10">
+                Real-time conveyor belt sorting for Gedong Gincu mangoes. Detect ripeness, classify quality, and route product downstream — all in a single inference pass.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow">
+                    <p class="text-slate-500 text-[10px] font-mono uppercase tracking-widest mb-2"><i class="fa-solid fa-wave-square mr-2"></i> Uptime</p>
+                    <p class="text-2xl font-bold">99.94%</p>
+                </div>
+                <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow">
+                    <p class="text-slate-500 text-[10px] font-mono uppercase tracking-widest mb-2"><i class="fa-solid fa-bolt mr-2"></i> Throughput</p>
+                    <p class="text-2xl font-bold">1,284 <span class="text-sm text-slate-500 font-normal">/ hr</span></p>
+                </div>
+                <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow">
+                    <p class="text-slate-500 text-[10px] font-mono uppercase tracking-widest mb-2"><i class="fa-solid fa-bullseye mr-2"></i> Model Accuracy</p>
+                    <p class="text-2xl font-bold">97.2%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface border border-slate-800 rounded-2xl p-2 sm:p-6 card-glow mb-12">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 px-4 pt-2">
+                <div>
+                    <h3 class="text-lg font-bold">Input Source</h3>
+                    <p class="text-xs text-slate-500">Choose how to feed the inference engine.</p>
+                </div>
+                <div class="mt-4 sm:mt-0 bg-base border border-slate-800 rounded-lg p-1 flex">
+                    <button onclick="switchTab('image')" id="tab-image" class="tab-btn bg-surface border border-slate-700 text-white px-6 py-2 rounded-md text-sm font-medium transition shadow-sm">
+                        <i class="fa-regular fa-image mr-2"></i> Upload Image
+                    </button>
+                    <button onclick="switchTab('video')" id="tab-video" class="tab-btn text-slate-400 hover:text-white px-6 py-2 rounded-md text-sm font-medium transition">
+                        <i class="fa-solid fa-video mr-2"></i> Upload Video
+                    </button>
+                    <button onclick="switchTab('camera')" id="tab-camera" class="tab-btn text-slate-400 hover:text-white px-6 py-2 rounded-md text-sm font-medium transition">
+                        <i class="fa-solid fa-camera mr-2"></i> Live Camera
+                    </button>
+                </div>
+            </div>
+
+            <div id="content-image" class="block bg-base border border-slate-800 rounded-xl p-6 relative">
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <div class="border-2 border-dashed border-slate-700 rounded-xl p-10 text-center hover:border-mangga-mengkal/50 transition bg-surface/50 relative group mb-6">
+                        <input type="file" name="file" id="fileInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" required onchange="updateFileName(this)">
+                        <div class="w-16 h-16 bg-mangga-mengkal/10 border border-mangga-mengkal/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-mangga-mengkal"></i>
+                        </div>
+                        <h4 class="text-white font-semibold mb-1" id="fileText">Drop a mango image here</h4>
+                        <p class="text-sm text-mangga-matang mb-4">or browse files</p>
+                        <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">PNG, JPG OR WEBP · UP TO 12 MB</p>
+                    </div>
+
+                    <div class="bg-surface rounded-xl p-6 border border-slate-800 mb-6">
+                        <p class="text-[10px] text-slate-500 font-mono uppercase tracking-widest mb-4">Pipeline</p>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center"><i class="fa-solid fa-circle text-[6px] text-mangga-mengkal mr-3"></i> Preprocess</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle text-[6px] text-mangga-mengkal mr-3"></i> YOLOv11 Inference</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle text-[6px] text-mangga-mengkal mr-3"></i> Classify ripeness</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle text-[6px] text-mangga-mengkal mr-3"></i> Render results</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gradient text-black font-bold text-lg py-4 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.5)] transition duration-300">
+                        <i class="fa-solid fa-play mr-2"></i> Analyze Image
+                    </button>
+                </form>
+            </div>
+
+            <div id="content-video" class="hidden bg-base border border-slate-800 rounded-xl p-16 text-center">
+                <i class="fa-solid fa-lock text-4xl text-slate-600 mb-4"></i>
+                <h4 class="text-white font-semibold">Video Analysis Locked</h4>
+                <p class="text-slate-500 text-sm">This feature is disabled in the current prototype build.</p>
+            </div>
+
+            <div id="content-camera" class="hidden bg-base border border-slate-800 rounded-xl p-6 relative">
+                <div class="border-2 border-dashed border-slate-700 rounded-xl bg-black h-80 flex flex-col items-center justify-center relative mb-6 overflow-hidden">
+                    
+                    <video id="webcamVideo" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
+                    
+                    <div id="cameraStandby" class="flex flex-col items-center justify-center">
+                        <i class="fa-solid fa-crosshairs text-4xl text-slate-700"></i>
+                        <p class="text-slate-500 font-mono text-sm mt-4">Meminta Izin Kamera...</p>
+                    </div>
+
+                    <div id="recIndicator" class="hidden absolute top-4 left-4 flex items-center space-x-2 bg-black/60 px-2 py-1 rounded border border-red-500/30 z-10">
+                        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                        <span class="text-[10px] font-mono text-red-500 tracking-widest">LIVE</span>
+                    </div>
+                </div>
+
+                <button id="captureBtn" type="button" class="w-full btn-gradient text-black font-bold text-lg py-4 rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.5)] transition duration-300">
+                    <i class="fa-solid fa-camera mr-2"></i> Capture & Analyze
+                </button>
+
+                <form id="cameraForm" action="/" method="post" enctype="multipart/form-data" class="hidden">
+                    <input type="file" name="file" id="cameraFileInput">
+                </form>
+                <canvas id="hiddenCanvas" class="hidden"></canvas>
+            </div>
+
+        </div>
+
+        {% if result_image %}
+        
+        {% set total = matang + mengkal + mentah %}
+        {% set p_matang = ((matang / total * 100) | round | int) if total > 0 else 0 %}
+        {% set p_mengkal = ((mengkal / total * 100) | round | int) if total > 0 else 0 %}
+        {% set p_mentah = ((mentah / total * 100) | round | int) if total > 0 else 0 %}
+
+        <div class="mb-12 animate-fade-in" id="results-panel">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <div class="bg-surface border border-slate-800 rounded-2xl p-4 card-glow relative overflow-hidden flex flex-col">
+                    <div class="flex justify-between items-center mb-4 px-2">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-mangga-mentah mr-2"></div>
+                            <span class="text-xs font-mono text-slate-400">INFERENCE COMPLETE</span>
+                        </div>
+                        <span class="text-[10px] font-mono bg-slate-800 px-2 py-1 rounded text-slate-400"><i class="fa-solid fa-stopwatch mr-1"></i> ~42ms</span>
+                    </div>
+                    
+                    <div class="relative rounded-xl overflow-hidden border border-slate-700 bg-black flex-grow flex items-center justify-center">
+                        <img src="{{ url_for('static', filename='results/' + result_image) }}" class="max-h-[500px] w-auto object-contain" alt="YOLO Output">
+                        <div class="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-white/30"></div>
+                        <div class="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-white/30"></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col space-y-4">
+                    <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-mangga-matang shadow-[0_0_10px_#FACC15]"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-white flex items-center"><i class="fa-solid fa-circle text-[8px] text-mangga-matang mr-2"></i> Matang</h3>
+                                <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Ripe</p>
+                            </div>
+                            <span class="text-3xl font-bold text-mangga-matang">{{ matang }}</span>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mb-2">
+                                <span>SHARE</span>
+                                <span>{{ p_matang }}%</span>
+                            </div>
+                            <div class="w-full bg-base rounded-full h-1.5">
+                                <div class="bg-mangga-matang h-1.5 rounded-full progress-bar shadow-[0_0_5px_#FACC15]" style="width: {{ p_matang }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-mangga-mengkal shadow-[0_0_10px_#F97316]"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-white flex items-center"><i class="fa-solid fa-circle text-[8px] text-mangga-mengkal mr-2"></i> Mengkal</h3>
+                                <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Half-Ripe</p>
+                            </div>
+                            <span class="text-3xl font-bold text-mangga-mengkal">{{ mengkal }}</span>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mb-2">
+                                <span>SHARE</span>
+                                <span>{{ p_mengkal }}%</span>
+                            </div>
+                            <div class="w-full bg-base rounded-full h-1.5">
+                                <div class="bg-mangga-mengkal h-1.5 rounded-full progress-bar shadow-[0_0_5px_#F97316]" style="width: {{ p_mengkal }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-mangga-mentah shadow-[0_0_10px_#22C55E]"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-white flex items-center"><i class="fa-solid fa-circle text-[8px] text-mangga-mentah mr-2"></i> Mentah</h3>
+                                <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Unripe</p>
+                            </div>
+                            <span class="text-3xl font-bold text-mangga-mentah">{{ mentah }}</span>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mb-2">
+                                <span>SHARE</span>
+                                <span>{{ p_mentah }}%</span>
+                            </div>
+                            <div class="w-full bg-base rounded-full h-1.5">
+                                <div class="bg-mangga-mentah h-1.5 rounded-full progress-bar shadow-[0_0_5px_#22C55E]" style="width: {{ p_mentah }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-surface border border-slate-800 rounded-xl p-5 card-glow mt-2 flex-grow flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <p class="text-[10px] text-slate-500 font-mono uppercase tracking-widest">Total Objects Detected</p>
+                            <span class="bg-slate-800 border border-slate-700 text-[10px] font-mono text-slate-400 px-2 py-1 rounded">FRAME</span>
+                        </div>
+                        <h3 class="text-5xl font-bold text-white my-4">{{ total }}</h3>
+                        <div class="flex space-x-4 text-xs font-mono text-slate-400">
+                            <span><i class="fa-solid fa-circle text-[8px] text-mangga-matang mr-1"></i> {{ matang }} Matang</span>
+                            <span><i class="fa-solid fa-circle text-[8px] text-mangga-mengkal mr-1"></i> {{ mengkal }} Mengkal</span>
+                            <span><i class="fa-solid fa-circle text-[8px] text-mangga-mentah mr-1"></i> {{ mentah }} Mentah</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("results-panel").scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        </script>
+        {% endif %}
+
+    </main>
+
+    <footer class="mt-auto border-t border-slate-800 py-6 text-center text-slate-500 text-[11px] font-mono">
+        <div class="container mx-auto px-6 flex flex-col sm:flex-row justify-between items-center">
+            <p>© 2026 Mango Vision · Politeknik Negeri Bandung</p>
+            <p class="mt-2 sm:mt-0">Built for D4 Teknik Elektronika Final Project</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update Nama File saat Upload Image
+        function updateFileName(input) {
+            const textElement = document.getElementById('fileText');
+            if (input.files && input.files[0]) {
+                textElement.innerHTML = `<i class="fa-solid fa-check text-mangga-mentah mr-2"></i> ${input.files[0].name}`;
+                textElement.classList.add('text-mangga-matang');
+            } else {
+                textElement.innerText = 'Drop a mango image here';
+                textElement.classList.remove('text-mangga-matang');
+            }
+        }
+
+        // --- Logika Live Camera ---
+        const video = document.getElementById('webcamVideo');
+        const standbyUI = document.getElementById('cameraStandby');
+        const recIndicator = document.getElementById('recIndicator');
+        let cameraStream = null;
+
+        async function startCamera() {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                video.srcObject = cameraStream;
+                video.classList.remove('hidden');
+                standbyUI.classList.add('hidden');
+                recIndicator.classList.remove('hidden');
+            } catch (err) {
+                console.error("Kamera error:", err);
+                standbyUI.innerHTML = `<i class="fa-solid fa-video-slash text-4xl text-red-900"></i><p class="text-red-500 font-mono text-sm mt-4">Akses Kamera Ditolak / Tidak Ditemukan</p>`;
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                video.classList.add('hidden');
+                standbyUI.classList.remove('hidden');
+                recIndicator.classList.add('hidden');
+            }
+        }
+
+        // --- Logika Tab Switcher ---
+        function switchTab(tabId) {
+            if (tabId !== 'camera') { stopCamera(); }
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn text-slate-400 hover:text-white px-6 py-2 rounded-md text-sm font-medium transition";
+            });
+            document.querySelectorAll('[id^="content-"]').forEach(content => {
+                content.classList.remove('block');
+                content.classList.add('hidden');
+            });
+
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.className = "tab-btn bg-surface border border-slate-700 text-white px-6 py-2 rounded-md text-sm font-medium transition shadow-sm";
+            
+            const activeContent = document.getElementById('content-' + tabId);
+            activeContent.classList.remove('hidden');
+            activeContent.classList.add('block');
+
+            if (tabId === 'camera') { startCamera(); }
+        }
+
+        // --- Logika Jepret Kamera ---
+        document.getElementById('captureBtn').addEventListener('click', () => {
+            if (!cameraStream) return;
+
+            const canvas = document.getElementById('hiddenCanvas');
+            const context = canvas.getContext('2d');
+            const fileInput = document.getElementById('cameraFileInput');
+            const form = document.getElementById('cameraForm');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob((blob) => {
+                const file = new File([blob], "snapshot.jpg", { type: "image/jpeg" });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+
+                document.getElementById('captureBtn').innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...`;
+                
+                stopCamera();
+                form.submit();
+            }, 'image/jpeg');
+        });
+    </script>
+</body>
+</html>

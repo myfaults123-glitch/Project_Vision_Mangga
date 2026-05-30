@@ -1,0 +1,12 @@
+__pycache__/
+static/uploads/*
+static/results/*
+!static/uploads/.gitkeep
+!static/results/.gitkeep
+
+# Abaikan file lokal hardware
+yolo11n.pt
+2_latih_mangga.py
+3_deteksi_kamera.py
+4_deteksi_kamera_tracking.py
+4_tes_foto.py
